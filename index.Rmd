@@ -1,0 +1,36 @@
+---
+title: "Data visualization"
+author: "Henrik Husberg, henrik.husberg@helsinki.fi"
+date: "20.04 2020"
+output: 
+  html_document:
+    theme: cerulean
+    toc: true
+    toc_depth: 2
+    fig_caption: true
+    fig_width: 6
+    fig_height: 4
+    code_folding: hide
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+Test r code
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+Test plots
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
