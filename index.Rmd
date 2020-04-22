@@ -17,20 +17,55 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
+## Circles plot
 
-Test r code
 
-```{r cars}
-summary(cars)
+```{r echo=FALSE}
+setwd("C:/Users/hehusb/Nextcloud/ILS/Tark/ILS2/Rfiles")
+library(packcircles)
+library(ggplot2)
+library(viridis)
+library(ggiraph)
+#Datan lukeminen csv:stä (UTF-8) ja muuttaminen dataframiksi
+#Tässä data on "Mihin tarvitsee tukea". Excelissä laskettu yhteen vastaukse kolumneittain ennen R:ään siirtoa.
+data_avo <- read.csv(file="C:/Users/hehusb/Nextcloud/ILS/Tark/ILS2/Rfiles/avoimet_kat.csv", header=TRUE, sep=";")
+data_avo_df <- as.data.frame(t(data_avo))
+#data_avo_df
+
+#packcircles:in layoutin valinta ja määritys sekä uusien, ympyröiden määrittävien muuttujien lisääminen dataan
+packing <- circleProgressiveLayout(data_avo_df, sizetype='area')
+data_avo_df <- cbind(data_avo_df, packing)
+#data_avo_df
+
+#ryhmien, eli ympyröden nimien lisääminen dataan
+groups <- c("Uppmuntra och motivera", "Håll personlig kontakt", "Ta vara på färdigt material", "Skapa nytt med hjälp av tekniken", "Tydliggör och strukturera", "Ordna gemensamma stunder för undervisning", "Övriga tips")
+#groups
+data_avo_df <- cbind(data_avo_df, groups)
+#data_avo_df
+
+# interaktiivinen datan lisäys
+data_avo_df$text <- paste("Kategori: ",data_avo_df$groups, "\n", "Antal:", data_avo_df$V1, "\n", "")
+#data_avo_df
+
+#ympyröiden plottaus
+#plot(data_avo_df$radius, data_avo_df$V1)
+
+dat.gg <- circleLayoutVertices(packing, npoints=50)
+
+p <- ggplot() + 
+  geom_polygon_interactive(data = dat.gg, aes(x, y, group = id, fill=id, tooltip = data_avo_df$text[id], data_id = id), colour = "black", alpha = 0.6) +  
+  scale_fill_viridis() +
+  geom_text(data = data_avo_df, aes(x, y, label=groups)) +
+#  scale_size_continuous(range = c(1,4)) +  
+  theme_void() + 
+  theme(legend.position="none") +
+  coord_equal()  
+
+widg <- ggiraph(ggobj = p, width_svg = 7, height_svg = 7)
+widg  
+
+#library(htmlwidgets)
+#saveWidget(widg, file=paste0( getwd(), "/circular_packing_interactive.html"))
 ```
 
-## Including Plots
 
-Test plots
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
