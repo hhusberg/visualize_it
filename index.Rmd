@@ -17,6 +17,8 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+# Data visualizations
+
 ## Circles plot 1
 
 
@@ -69,31 +71,32 @@ widg
 #library(htmlwidgets)
 #saveWidget(widg, file=paste0( getwd(), "/circular_packing_interactive.html"))
 ```
-## Circles plot 1
+
+## Circles plot 2
 ```{r echo=FALSE}
 #Datan lukeminen csv:stä (UTF-8) ja muuttaminen dataframiksi
 #Tässä data on "Mihin tarvitsee tukea". Excelissä laskettu yhteen vastaukse kolumneittain ennen R:ään siirtoa.
 data_avo <- read.csv(file="C:/Users/hehusb/Nextcloud/ILS/Tark/ILS2/Rfiles/haasteet_opvaik_avot.csv", header=TRUE, sep=";")
 data_avo_df <- as.data.frame(t(data_avo))
-data_avo_df
+#data_avo_df
 
 #packcircles:in layoutin valinta ja määritys sekä uusien, ympyröiden määrittävien muuttujien lisääminen dataan
 packing <- circleProgressiveLayout(data_avo_df, sizetype='area')
 data_avo_df <- cbind(data_avo_df, packing)
-data_avo_df
+#data_avo_df
 
 #ryhmien, eli ympyröden nimien lisääminen dataan
 groups <- c("Kodin tuki", "Motivointi", "Selkeät ohjeet", "Tuki", "Tavoittaminen", "Toiminnanohjaus", "Tietotekniset haasteet", "Oppilaan hyvinvointi", "Opettajan työhön liittyvät asiat")
-groups
+#groups
 data_avo_df <- cbind(data_avo_df, groups)
-data_avo_df
+#data_avo_df
 
 # interaktiivinen datan lisäys
 data_avo_df$text <- paste("Kategoria: ",data_avo_df$groups, "\n", "Lukumäärä:", data_avo_df$V1, "\n", "")
-data_avo_df
+#data_avo_df
 
 #ympyröiden plottaus
-plot(data_avo_df$radius, data_avo_df$V1)
+#plot(data_avo_df$radius, data_avo_df$V1)
 
 dat.gg <- circleLayoutVertices(packing, npoints=50)
 
