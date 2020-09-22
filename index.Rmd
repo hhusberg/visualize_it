@@ -113,3 +113,26 @@ widg <- ggiraph(ggobj = p, width_svg = 7, height_svg = 7)
 widg  
 
 ```
+
+## Barplots 2
+```{r echo=FALSE}
+#Datan lukeminen csv:stä (UTF-8) ja muuttaminen dataframiksi
+#Tässä data on "Mihin tarvitsee tukea". Excelissä laskettu yhteen vastaukse kolumneittain ennen R:ään siirtoa.
+data_avo_bar <- read.csv(file="C:/Users/hehusb/Nextcloud/ILS/Tark/ILS2/Rfiles/haasteet_S2_avot.csv", header=TRUE, sep=";")
+data_avo_bar_df <- as.data.frame(t(data_avo_bar))
+#summary(data_avo_bar_df)
+#data_avo_bar_df
+
+groups_bar <- c("Motivointi", "Kodin tuki", "Selkeät ohjeet", "Tuki", "Tavoittaminen", "Toiminnanohjaus", "Tietotekniset haasteet", "Kieli")
+#groups
+data_avo_bar_df <- cbind(data_avo_bar_df, groups_bar)
+p<-ggplot(data=data_avo_bar_df, aes(x=groups_bar, y=V1)) +
+  geom_bar(stat="identity", fill="steelblue") + 
+  scale_fill_hue(c = 40) +
+  theme(axis.text.x = element_text(angle=45, hjust=1, vjust = 1),
+          axis.title = element_blank(),
+          plot.margin = margin(t = 20, r = 10, b = 10, l = 10))
+p
+#  scale_fill_hue(c = 40) +
+#  theme(legend.position="none")
+```
